@@ -1,0 +1,9 @@
+#  https://github.com/github/gitignore/blob/master/VisualStudio.gitignore
+
+bin/
+obj/
+
+.vs/
+
+.dependencies/packages
+.dependencies/*/Assembly-CSharp*.dll

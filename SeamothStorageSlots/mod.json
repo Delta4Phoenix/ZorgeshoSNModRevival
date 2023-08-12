@@ -1,0 +1,10 @@
+{
+  "Id": "SeamothStorageSlots",
+  "DisplayName": "Seamoth Storage Slots Fix",
+  "Author": "zorgesho",
+  "Version": "1.0.0",
+  "Enable": true,
+  "Game": "Subnautica",
+  "AssemblyName": "SeamothStorageSlots.dll",
+  "EntryMethod": "SeamothStorageSlots.Main.patch"
+}

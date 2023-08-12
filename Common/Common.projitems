@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>acfe8ab0-f047-44b1-8b43-d918f5ecad77</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>Common</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)ConsoleCommands.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ModConsts.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)debug\MaterialDumper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)debug\ObjectDumper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)debug\Misc.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)debug\PersistentScreenMessages.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)debug\Profiler.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)harmony\Debug.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)harmony\HarmonyHelper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)debug\Log.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)harmony\OptionalPatches.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)harmony\CIHelper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)harmony\PatchClass.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)LanguageHelper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)utils\MainMenuMessages.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Misc.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MiscInGame.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Mod.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)PathHelper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)reflection\Extensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)reflection\ReflectionHelper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)reflection\wrappers\MethodWrapper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)reflection\wrappers\PropertyWrapper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)reflection\wrappers\EventWrapper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UnityExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)utils\SimpleJSON.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)utils\VersionChecker.cs" />
+  </ItemGroup>
+</Project>

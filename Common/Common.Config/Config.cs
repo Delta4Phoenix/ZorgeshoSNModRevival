@@ -1,0 +1,97 @@
+﻿using System;
+using System.IO;
+
+namespace Common.Configuration
+{
+	abstract partial class Config
+	{
+		public const string defaultName = "config.json";
+
+		public static Config main { get; private set; }
+		public static string lastError { get; private set; }
+
+		[Flags]
+		public enum LoadOptions
+		{
+			None = 0,
+			ProcessAttributes = 1,
+			MainConfig = 2,
+			ForcedLoad = 4,
+			ReadOnly = 8,
+			Default = ProcessAttributes | MainConfig
+		}
+
+		const bool ignoreExistingFile = // can be overridden by LoadOptions.ForcedLoad
+#if DEBUG && !LOAD_CONFIG
+			true;
+#else
+			false;
+#endif
+		bool readOnly;
+		public string configPath { get; private set; }
+
+		protected virtual void onLoad() {} // called immediately after config loading/creating
+
+		// try to load config from mod folder. If file not found, create default config and save it to that path
+		public static C tryLoad<C>(string loadPath = defaultName, LoadOptions loadOptions = LoadOptions.Default) where C: Config
+		{
+			return tryLoad(typeof(C), loadPath, loadOptions) as C;
+		}
+
+		public static Config tryLoad(Type configType, string loadPath = defaultName, LoadOptions loadOptions = LoadOptions.Default)
+		{
+			Debug.assert(typeof(Config).IsAssignableFrom(configType), $"{configType}");
+
+			Config config;
+
+			string configPath = Paths.FormatFileName(loadPath, "json", true);
+			Paths.EnsurePath(configPath);
+
+			try
+			{
+				bool createDefault = (ignoreExistingFile && !loadOptions.HasFlag(LoadOptions.ForcedLoad)) || !File.Exists(configPath);
+
+				if (createDefault && configPath != null)
+					$"Creating default config ({loadPath})".log();
+
+				config = createDefault? Activator.CreateInstance(configType) as Config: Deserialize(File.ReadAllText(configPath), configType);
+				config.onLoad();
+				config.configPath = configPath;
+				config.readOnly = loadOptions.HasFlag(LoadOptions.ReadOnly);
+
+				// saving config even if we just loaded it to update it in case of added or removed fields
+				if (createDefault || !config.readOnly)
+					config.save(configPath);
+
+				if (loadOptions.HasFlag(LoadOptions.MainConfig))
+				{																				"Config.main is already set!".logDbgError(main != null);
+					main ??= config;
+				}
+
+				if (loadOptions.HasFlag(LoadOptions.ProcessAttributes))
+					config.ProcessAttributes();
+			}
+			catch (Exception e)
+			{
+				Log.msg(e, $"Exception while loading '{loadPath}'");
+				lastError = e.Message;
+
+				config = null;
+			}
+
+			return config;
+		}
+
+		public void save(string path = null)
+		{
+			if (!readOnly)
+				path ??= configPath;
+
+			if (path == null)
+				return;
+
+			try { File.WriteAllText(path, Serialize()); }
+			catch (Exception e) { Log.msg(e, $"Exception while saving '{path}'"); }
+		}
+	}
+}
